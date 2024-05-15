@@ -1,0 +1,23 @@
+﻿@page "/makeadmin"
+
+@attribute [Microsoft.AspNetCore.Authorization.Authorize(Policy = "AuthenticatedUser")]
+@inject AuthenticationStateProvider _authenticationStateProvider;
+@inject IServiceProvider _serviceProvider;
+@inject Handlers.RoleHandler _roleHandler;
+
+<PageTitle>TestAuthentication</PageTitle>
+
+<h1>Authentication Test Page</h1>
+
+<div>
+    <h3>You have been promoted to ADMIN</h3>
+</div>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        await _roleHandler.CreateUserRolesAsync(user.Identity.Name, "ADMIN", _serviceProvider);
+    }
+}

@@ -1,6 +1,5 @@
 ﻿@page "/testadmin"
 @attribute [Microsoft.AspNetCore.Authorization.Authorize(Policy = "AuthenticatedUser")]
-@attribute [Microsoft.AspNetCore.Authorization.Authorize(Policy = "RequireAdmin")]
 @attribute [StreamRendering]
 
 @inject AuthenticationStateProvider _authenticationStateProvider;
@@ -38,8 +37,10 @@ else
         // Get current user
         var user = authState.User;
 
+        // Checks if user is ADMIN
+        _isAdmin = user.IsInRole("ADMIN");
+
         // Set username
         _userName = user.Identity.Name;
-        _isAdmin = user.IsInRole("Admin");
     }
 }
