@@ -69,6 +69,8 @@
     {
         var user = CreateUser();
 
+        user.TwoFactorEnabled = true;
+
         await UserStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
         var emailStore = GetEmailStore();
         await emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
