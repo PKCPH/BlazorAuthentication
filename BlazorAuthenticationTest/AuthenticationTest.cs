@@ -47,6 +47,19 @@ public class AuthenticationTest : TestContext
     }
 
     [Fact]
+    public void SimpleComponentViewMarkupTest()
+    {
+        // Arrange
+        var context = new TestContext();
+
+        // Act
+        var codeUnderTest = context.RenderComponent<Home>();
+
+        // Assert
+        codeUnderTest.MarkupMatches("<h1>Hello, world!</h1>\r\n\r\nWelcome to your new app.");
+    }
+
+    [Fact]
     public void FileCreatedSuccessfully()
     {
         // TODO - Should mock filesystem instead of actual creation and deletion of files.
