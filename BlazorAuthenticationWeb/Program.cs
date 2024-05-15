@@ -1,3 +1,4 @@
+using BlazorAuthenticationWeb.Handlers;
 using BlazorAuthenticationWeb.Components;
 using BlazorAuthenticationWeb.Components.Account;
 using BlazorAuthenticationWeb.Data;
@@ -26,9 +27,11 @@ builder.Services.AddAuthentication(options =>
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddSignInManager()
     .AddDefaultTokenProviders();
@@ -45,6 +48,22 @@ builder.Services.Configure<IdentityOptions>(options =>
 });
 
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
+
+//added auth
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AuthenticatedUser", policy =>
+    {
+        policy.RequireAuthenticatedUser();
+    });
+    //Admin Authorization
+    options.AddPolicy("RequireAdmin", policy =>
+    {
+        policy.RequireRole("Admin");
+    });
+});
+
+builder.Services.AddSingleton<RoleHandler>();
 
 var app = builder.Build();
 

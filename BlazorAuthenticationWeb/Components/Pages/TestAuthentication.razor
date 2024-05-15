@@ -1,9 +1,10 @@
 ﻿@page "/testauth"
-@attribute [StreamRendering]
 
 @inject AuthenticationStateProvider _authenticationStateProvider;
+@inject IServiceProvider _serviceProvider;
+@inject Handlers.RoleHandler _roleHandler;
 
-<PageTitle>TestAuth</PageTitle>
+<PageTitle>TestAuthentication</PageTitle>
 
 <h1>Authentication Test Page</h1>
 
@@ -11,6 +12,10 @@
 {
     <div>
         <h1>Hello, @_userName</h1>
+    </div>
+
+    <div>
+        <button @onclick="async () => await MakeAdmin()">Make admin</button>
     </div>
 }
 else
@@ -22,6 +27,7 @@ else
 
 @code {
     private bool _isAuthenticated;
+    private bool _isAdmin;
     private string _userName;
 
     protected override async Task OnInitializedAsync()
@@ -34,5 +40,16 @@ else
 
         _userName = user.Identity.Name;
         _isAuthenticated = user.Identity.IsAuthenticated;
+        _isAdmin = user.IsInRole("Admin");
+
+        if (_isAuthenticated)
+            await _roleHandler.CreateUserRolesAsync(user.Identity.Name, "Admin", _serviceProvider);
+    }
+
+    public async Task MakeAdmin()
+    {
+        // var authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
+        // var user = authState.User;
+        // await _roleHandler.CreateUserRoles(_userName,"ADMIN",_serviceProvider);
     }
 }
