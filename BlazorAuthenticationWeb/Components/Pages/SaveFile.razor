@@ -1,4 +1,5 @@
 ﻿@page "/savefile"
+@attribute [Microsoft.AspNetCore.Authorization.Authorize(Policy = "RequireAdmin")]
 @using System.Runtime.InteropServices
 @rendermode InteractiveServer
 
@@ -20,6 +21,7 @@
         }
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
+            // TODO: Fetch username dynamically
             filePath = @"/home/martin/backlog.txt";
         }
         else
@@ -28,9 +30,11 @@
             return;
         }
 
+        string currentDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
         using (StreamWriter writer = new StreamWriter(filePath))
         {
-            writer.WriteLine("Simple text file.");
+            writer.WriteLine($"Backlog file has been created on this date: {currentDate}");
         }
     }
 }
