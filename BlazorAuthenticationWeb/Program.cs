@@ -5,6 +5,7 @@ using BlazorAuthenticationWeb.Data;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.InteropServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,20 +25,19 @@ builder.Services.AddAuthentication(options =>
     })
     .AddIdentityCookies();
 
-
-
-//if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-//{
-//    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-//    builder.Services.AddDbContext<ApplicationDbContext>(options =>
-//        options.UseSqlServer(connectionString));
-//}
-//else
-//{
-var connectionString = builder.Configuration.GetConnectionString("MockConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite(connectionString));
-//}
+// NOTE: IF YOU NEED TO CREATE YOUR MOCK DATABASE, THEN COMMENT OUT THE ENTIRE FIRST STATEMENT
+if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+{
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+    builder.Services.AddDbContext<ApplicationDbContext>(options =>
+        options.UseSqlServer(connectionString));
+}
+else
+{
+    var connectionString = builder.Configuration.GetConnectionString("MockConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+    builder.Services.AddDbContext<ApplicationDbContext>(options =>
+        options.UseSqlite(connectionString));
+}
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
