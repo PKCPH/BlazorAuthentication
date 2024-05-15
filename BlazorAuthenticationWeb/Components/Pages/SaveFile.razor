@@ -1,0 +1,36 @@
+﻿@page "/savefile"
+@using System.Runtime.InteropServices
+@rendermode InteractiveServer
+
+<PageTitle>SaveFile</PageTitle>
+
+<h1>SAVE A FILE ON THE SERVER</h1>
+
+<button class="btn btn-primary" @onclick="WriteFile">Save a file on server</button>
+
+@code {
+
+    public void WriteFile()
+    {
+        string filePath;
+
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            filePath = @"C:\temp\backlog.txt";
+        }
+        else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        {
+            filePath = @"/home/martin/backlog.txt";
+        }
+        else
+        {
+            Console.WriteLine("OS NOT SUPPORTED");
+            return;
+        }
+
+        using (StreamWriter writer = new StreamWriter(filePath))
+        {
+            writer.WriteLine("Simple text file.");
+        }
+    }
+}
