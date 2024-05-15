@@ -47,6 +47,38 @@ public class AuthenticationTest : TestContext
     }
 
     [Fact]
+    public void ShowsAuthorizedUserContent_WhenUserIsAuthorized()
+    {
+        // Arrange
+        var ctx = new TestContext();
+        var authContext = ctx.AddTestAuthorization();
+        authContext.SetAuthorized("testuser", AuthorizationState.Unauthorized);
+        authContext.SetRoles("ADMIN");
+
+        // Act
+        var cut = ctx.RenderComponent<TestAuthorization>();
+
+        // Assert
+        cut.MarkupMatches("<h1>Authentication Test Page</h1>\r\n<div>\r\n  <h1>Hello, testuser</h1>\r\n  <h3>You are admin!</h3>\r\n</div>");
+    }
+
+    [Fact]
+    public void ShowsNotAuthorizedUserContent_WhenUserIsAuthorized()
+    {
+        // Arrange
+        var ctx = new TestContext();
+        var authContext = ctx.AddTestAuthorization();
+        authContext.SetAuthorized("testuser", AuthorizationState.Unauthorized);
+        authContext.SetRoles("USER");
+
+        // Act
+        var cut = ctx.RenderComponent<TestAuthorization>();
+
+        // Assert
+        cut.MarkupMatches("<h1>Authentication Test Page</h1>\r\n<div>\r\n  <h1>Hello, testuser</h1>\r\n  <h3>You are not admin sadly.</h3>\r\n</div>");
+    }
+
+    [Fact]
     public void SimpleComponentViewMarkupTest()
     {
         // Arrange
@@ -60,7 +92,7 @@ public class AuthenticationTest : TestContext
     }
 
     [Fact]
-    public void FileCreatedSuccessfully()
+    public void ShowsAuthorizedCode_WhenFileCreatedSuccesfully()
     {
         // TODO - Should mock filesystem instead of actual creation and deletion of files.
 
