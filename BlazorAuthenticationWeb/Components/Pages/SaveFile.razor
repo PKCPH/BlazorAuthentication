@@ -9,20 +9,31 @@
 
 <button class="btn btn-primary" @onclick="WriteFile">Save a file on server</button>
 
+<div>
+    <h2>@_message</h2>
+</div>
+
 @code {
+    public string _filePath;
+    public string _message;
 
     public void WriteFile()
     {
-        string filePath;
-
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
-            filePath = @"C:\temp\backlog.txt";
+            _filePath = @"C:\temp\backlog.txt";
+
+            string directoryPath = Path.GetDirectoryName(_filePath);
+
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
         }
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
             // TODO: Fetch username dynamically
-            filePath = @"/home/martin/backlog.txt";
+            _filePath = @"/home/martin/backlog.txt";
         }
         else
         {
@@ -32,9 +43,10 @@
 
         string currentDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
-        using (StreamWriter writer = new StreamWriter(filePath))
+        using (StreamWriter writer = new StreamWriter(_filePath))
         {
             writer.WriteLine($"Backlog file has been created on this date: {currentDate}");
+            _message = $"The file has been successfully created on this filepath: {_filePath}";
         }
     }
 }
