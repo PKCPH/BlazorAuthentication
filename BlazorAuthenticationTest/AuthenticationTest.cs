@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Microsoft.AspNetCore.Identity;
 using BlazorAuthenticationWeb.Handlers;
+using System.Runtime.InteropServices;
 
 namespace BlazorAuthenticationTest;
 
@@ -43,5 +44,36 @@ public class AuthenticationTest : TestContext
         // Assert
         cut.MarkupMatches("<h1>Authentication Test Page</h1>\r\n<div>\r\n  <h1>Hello,\r\n  </h1>\r\n  You are authenticated.\r\n</div>");
 
+    }
+
+    [Fact]
+    public void FileCreatedSuccessfully()
+    {
+        // Arrange
+        var filePath = "";
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            filePath = @"C:\temp\backlog.txt";
+        }
+        else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        {
+            filePath = @"/home/martin/backlog.txt";
+        }
+        var ctx = new TestContext();
+        var authContext = ctx.AddTestAuthorization();
+        authContext.SetAuthorized("");
+        authContext.SetRoles("ADMIN");
+
+        // Act
+        var cut = ctx.RenderComponent<SaveFile>();
+        var saveFileObj = cut.Instance;
+
+        saveFileObj.WriteFile();
+
+        // Assert
+        Assert.True(File.Exists(filePath));
+
+        // Cleaning up test file
+        File.Delete(filePath);
     }
 }
