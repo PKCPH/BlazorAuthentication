@@ -49,6 +49,8 @@ public class AuthenticationTest : TestContext
     [Fact]
     public void FileCreatedSuccessfully()
     {
+        // TODO - Should mock filesystem instead of actual creation and deletion of files.
+
         // Arrange
         var filePath = "";
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
