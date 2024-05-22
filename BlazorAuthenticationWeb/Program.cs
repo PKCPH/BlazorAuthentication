@@ -75,6 +75,7 @@ builder.Services.AddAuthorization(options =>
 });
 
 builder.Services.AddSingleton<RoleHandler>();
+builder.Services.AddSingleton<HashingHandler>();
 
 var app = builder.Build();
 
