@@ -5,7 +5,9 @@ VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorAuthenticationWeb", "BlazorAuthenticationWeb\BlazorAuthenticationWeb.csproj", "{120D0ED2-A0F4-443E-B160-CF4027175287}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorAuthenticationTest", "BlazorAuthenticationTest\BlazorAuthenticationTest.csproj", "{6A515F9E-4A45-4B9E-B27F-8C1B5B1E02B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorAuthenticationTest", "BlazorAuthenticationTest\BlazorAuthenticationTest.csproj", "{6A515F9E-4A45-4B9E-B27F-8C1B5B1E02B0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorAuthenticationWebAPI", "BlazorAuthenticationWebAPI\BlazorAuthenticationWebAPI.csproj", "{5DBC2930-F12A-4250-B226-B28317DCC959}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{6A515F9E-4A45-4B9E-B27F-8C1B5B1E02B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A515F9E-4A45-4B9E-B27F-8C1B5B1E02B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A515F9E-4A45-4B9E-B27F-8C1B5B1E02B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DBC2930-F12A-4250-B226-B28317DCC959}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DBC2930-F12A-4250-B226-B28317DCC959}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DBC2930-F12A-4250-B226-B28317DCC959}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DBC2930-F12A-4250-B226-B28317DCC959}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
